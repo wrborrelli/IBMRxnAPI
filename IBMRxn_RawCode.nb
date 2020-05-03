@@ -1,0 +1,1493 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 12.1' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       158,          7]
+NotebookDataLength[     66500,       1485]
+NotebookOptionsPosition[     64522,       1445]
+NotebookOutlinePosition[     64924,       1461]
+CellTagsIndexPosition[     64881,       1458]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["Necessary Variable Assignments ", "Subsection",
+ CellChangeTimes->{{3.7975374211029177`*^9, 3.7975374250376205`*^9}, 
+   3.7975374588896036`*^9},ExpressionUUID->"20d51134-b1e1-4bc5-a25d-\
+46cb8b4e8174"],
+
+Cell[BoxData[
+ RowBox[{"(*", " ", 
+  RowBox[{
+  "Initial", " ", "run", " ", "of", " ", "this", " ", "notebook", " ", "will",
+    " ", "prompt", " ", "you", " ", "to", " ", "enter", " ", "your", " ", 
+   "authorization", " ", 
+   RowBox[{"key", ".", " ", "Once"}], " ", 
+   RowBox[{"you", "'"}], "ve", " ", "done", " ", "that", " ", "feel", " ", 
+   "free", " ", "to", " ", "delete", " ", "the", " ", "following", " ", 
+   RowBox[{"cell", "."}]}], " ", "*)"}]], "Input",
+ CellChangeTimes->{{3.7972036543275347`*^9, 3.7972036807675376`*^9}, {
+  3.797203753432905*^9, 
+  3.797203756375533*^9}},ExpressionUUID->"ce654aa2-e1c3-42a6-b651-\
+818ecbb104b8"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{
+   RowBox[{"SystemCredential", "[", "\"\<authKey\>\"", "]"}], "=", 
+   RowBox[{"InputString", "[", "\"\<Authorization Key\>\"", "]"}]}], 
+  ";"}]], "Input",
+ InitializationCell->True,
+ CellChangeTimes->{{3.7972035346836586`*^9, 3.797203613748534*^9}, {
+  3.7972037239796085`*^9, 3.7972037260662007`*^9}, {3.7972037603341584`*^9, 
+  3.7972037625017996`*^9}},
+ CellLabel->"In[19]:=",ExpressionUUID->"4e3bd669-11c7-4d71-9a0c-5c8acf07b298"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"authKey", "=", 
+   RowBox[{"SystemCredential", "[", "\"\<authKey\>\"", "]"}]}], 
+  ";"}]], "Input",
+ InitializationCell->True,
+ CellChangeTimes->{{3.7942602183491096`*^9, 3.794260226146757*^9}, {
+  3.7971813681910315`*^9, 3.7971813942920704`*^9}, {3.7975314093140497`*^9, 
+  3.797531411842142*^9}},
+ CellLabel->"In[13]:=",ExpressionUUID->"5dc56153-280d-4c74-9daa-5f607b0a01d2"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"baseURL", "=", "\"\<rxn.res.ibm.com\>\""}], ";"}]], "Input",
+ InitializationCell->True,
+ CellLabel->"In[26]:=",ExpressionUUID->"97c2f28d-3312-4868-a5ae-b9ba17ba7a96"]
+}, Closed]],
+
+Cell[CellGroupData[{
+
+Cell["Wrapper Code", "Subsection",
+ CellChangeTimes->{{3.7975374294978924`*^9, 
+  3.7975374354095993`*^9}},ExpressionUUID->"cf725d2d-71bf-4f7b-bfc5-\
+9b114ae82313"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"rxn", "[", 
+   RowBox[{"req_String", ",", "molecs_List", ",", "projID_String"}], "]"}], ":=", 
+  RowBox[{"Module", "[", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"reactantList", "=", 
+       RowBox[{"{", "}"}]}], ",", "createProj", ",", "projectID", ",", 
+      "createPred", ",", "getPred", ",", "rxnImg", ",", "rxnConf", ",", 
+      "predID", ",", "projName", ",", "reactants"}], "}"}], ",", 
+    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+    RowBox[{"If", "[", 
+     RowBox[{"(*", " ", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"If", "[", "]"}], " ", "you", " ", "want", " ", "to", " ", 
+        "make", " ", "a", " ", "\"\<new prediction\>\""}], ",", " ", 
+       RowBox[{"this", " ", "code", " ", "block", " ", "runs"}]}], " ", 
+      "*)"}], "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"req", "\[Equal]", "\"\<new prediction\>\""}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"Do", "[", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"Which", "[", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{"ImageQ", "[", 
+            RowBox[{"molecs", "[", 
+             RowBox[{"[", "i", "]"}], "]"}], "]"}], ",", 
+           "\[IndentingNewLine]", 
+           RowBox[{"AppendTo", "[", 
+            RowBox[{"reactantList", ",", 
+             RowBox[{
+              RowBox[{"MoleculeRecognize", "[", 
+               RowBox[{"molecs", "[", 
+                RowBox[{"[", "i", "]"}], "]"}], "]"}], "[", "\"\<SMILES\>\"", 
+              "]"}]}], "]"}], "\[IndentingNewLine]", ",", 
+           "\[IndentingNewLine]", 
+           RowBox[{"StringQ", "[", 
+            RowBox[{"molecs", "[", 
+             RowBox[{"[", "i", "]"}], "]"}], "]"}], ",", 
+           "\[IndentingNewLine]", 
+           RowBox[{"AppendTo", "[", 
+            RowBox[{"reactantList", ",", 
+             RowBox[{"molecs", "[", 
+              RowBox[{"[", "i", "]"}], "]"}]}], "]"}]}], 
+          "\[IndentingNewLine]", "]"}], ",", 
+         RowBox[{"{", 
+          RowBox[{"i", ",", "1", ",", 
+           RowBox[{"Length", "[", "molecs", "]"}]}], "}"}]}], "]"}], ";", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"reactants", "=", 
+        RowBox[{"ToString", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"Row", "[", 
+            RowBox[{"#", ",", "\"\<.\>\""}], "]"}], "&"}], "@", 
+          "reactantList"}], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"createPred", "=", 
+        RowBox[{
+         RowBox[{"HTTPRequest", "[", 
+          RowBox[{
+           RowBox[{"URL", "[", 
+            RowBox[{
+            "baseURL", "<>", 
+             "\"\</rxn/api/api/v1/predictions/pr?projectId=\>\"", "<>", 
+             "projID"}], "]"}], ",", "\[IndentingNewLine]", 
+           RowBox[{"<|", 
+            RowBox[{
+             RowBox[{"\"\<Method\>\"", "\[Rule]", "\"\<POST\>\""}], ",", 
+             "\[IndentingNewLine]", 
+             RowBox[{"\"\<Headers\>\"", "\[Rule]", 
+              RowBox[{"<|", 
+               RowBox[{
+                RowBox[{
+                "\"\<Content-Type\>\"", "\[Rule]", 
+                 "\"\<application/json\>\""}], ",", "\[IndentingNewLine]", 
+                RowBox[{"\"\<Authorization\>\"", "\[Rule]", "authKey"}]}], 
+               "|>"}]}], ",", "\[IndentingNewLine]", 
+             RowBox[{"\"\<Body\>\"", "\[Rule]", 
+              RowBox[{"ExportString", "[", 
+               RowBox[{
+                RowBox[{"<|", 
+                 RowBox[{"\"\<reactants\>\"", "\[Rule]", "reactants"}], 
+                 "|>"}], ",", "\"\<JSON\>\""}], "]"}]}]}], "|>"}]}], "]"}], "//", 
+         RowBox[{
+          RowBox[{"URLExecute", "[", 
+           RowBox[{"#", ",", "\"\<RawJSON\>\""}], "]"}], "&"}]}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"predID", "=", 
+        RowBox[{"createPred", "[", 
+         RowBox[{"\"\<payload\>\"", ",", "\"\<id\>\""}], "]"}]}], ";", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"Pause", "[", "10", "]"}], ";", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{"getPred", "=", 
+        RowBox[{
+         RowBox[{"HTTPRequest", "[", 
+          RowBox[{
+           RowBox[{"URL", "[", 
+            RowBox[{
+            "baseURL", "<>", "\"\</rxn/api/api/v1/predictions/\>\"", "<>", 
+             "predID"}], "]"}], ",", "\[IndentingNewLine]", 
+           RowBox[{"<|", 
+            RowBox[{
+             RowBox[{"\"\<Method\>\"", "\[Rule]", "\"\<GET\>\""}], ",", 
+             "\[IndentingNewLine]", 
+             RowBox[{"\"\<Headers\>\"", "\[Rule]", 
+              RowBox[{"<|", 
+               RowBox[{
+                RowBox[{
+                "\"\<Content-Type\>\"", "\[Rule]", 
+                 "\"\<application/json\>\""}], ",", "\[IndentingNewLine]", 
+                RowBox[{"\"\<Authorization\>\"", "\[Rule]", "authKey"}]}], 
+               "|>"}]}]}], "|>"}]}], "]"}], "//", 
+         RowBox[{
+          RowBox[{"URLExecute", "[", 
+           RowBox[{"#", ",", "\"\<RawJSON\>\""}], "]"}], "&"}]}]}], ";", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"projName", "=", 
+        RowBox[{"StringReplace", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{
+            RowBox[{"getPred", "[", 
+             RowBox[{"\"\<payload\>\"", ",", "\"\<attempts\>\""}], "]"}], "[", 
+            RowBox[{"[", "1", "]"}], "]"}], "[", "\"\<name\>\"", "]"}], ",", 
+          RowBox[{
+           RowBox[{"\"\<_\>\"", "~~", "___"}], "\[Rule]", "\"\<\>\""}]}], 
+         "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"projectID", "=", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"getPred", "[", 
+           RowBox[{"\"\<payload\>\"", ",", "\"\<attempts\>\""}], "]"}], "[", 
+          RowBox[{"[", "1", "]"}], "]"}], "[", "\"\<projectId\>\"", "]"}]}], 
+       ";", "\[IndentingNewLine]", 
+       RowBox[{"rxnImg", "=", 
+        RowBox[{
+         RowBox[{"ResourceFunction", "[", "\"\<SVGImport\>\"", "]"}], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"getPred", "[", 
+            RowBox[{"\"\<payload\>\"", ",", "\"\<attempts\>\""}], "]"}], "[", 
+           RowBox[{"[", "1", "]"}], "]"}], "[", "\"\<reactionImage\>\"", 
+          "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"rxnConf", "=", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"getPred", "[", 
+           RowBox[{"\"\<payload\>\"", ",", "\"\<attempts\>\""}], "]"}], "[", 
+          RowBox[{"[", "1", "]"}], "]"}], "[", "\"\<confidence\>\"", "]"}]}], 
+       ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"rxnImg", "\[IndentingNewLine]", 
+        RowBox[{"TableForm", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"{", 
+            RowBox[{
+            "projName", ",", "projectID", ",", "predID", ",", "rxnConf"}], 
+            "}"}], "}"}], ",", 
+          RowBox[{"TableHeadings", "\[Rule]", 
+           RowBox[{"{", 
+            RowBox[{"None", ",", 
+             RowBox[{"{", 
+              RowBox[{
+              "\"\<Project Name\>\"", ",", "\"\<Project ID\>\"", ",", 
+               "\"\<Prediction ID\>\"", ",", 
+               "\"\<Prediction Confidence\>\""}], "}"}]}], "}"}]}]}], 
+         "]"}]}]}]}], "\[IndentingNewLine]", "]"}]}], "]"}]}]], "Input",
+ InitializationCell->True,
+ CellChangeTimes->{{3.795986144860876*^9, 3.79598644431726*^9}, {
+   3.79598650308416*^9, 3.7959865122207365`*^9}, {3.7959870643585467`*^9, 
+   3.795987064543061*^9}, {3.795987110027493*^9, 3.795987118002179*^9}, {
+   3.7960003491960073`*^9, 3.7960003586048136`*^9}, {3.796000405363846*^9, 
+   3.796000458009483*^9}, {3.796000601260132*^9, 3.796000605546856*^9}, {
+   3.796000667805503*^9, 3.7960007406904755`*^9}, {3.796000908441061*^9, 
+   3.796000925498427*^9}, {3.796001044702774*^9, 3.7960010685370584`*^9}, {
+   3.796001103927483*^9, 3.7960011046216264`*^9}, {3.796001152463696*^9, 
+   3.796001153905843*^9}, {3.7960014814810705`*^9, 3.7960015000069103`*^9}, {
+   3.7960015684647694`*^9, 3.7960015885640697`*^9}, {3.796001630569461*^9, 
+   3.796001681962406*^9}, {3.796002794435841*^9, 3.796002798467066*^9}, {
+   3.7960029863210444`*^9, 3.796003017010869*^9}, {3.7960031036576867`*^9, 
+   3.7960031060443068`*^9}, {3.796003238982705*^9, 3.7960032733378625`*^9}, {
+   3.796003362499507*^9, 3.7960033839048443`*^9}, {3.7962723203052273`*^9, 
+   3.7962723330720696`*^9}, {3.7962724127467775`*^9, 3.796272426073122*^9}, {
+   3.796272469744663*^9, 3.7962725189177885`*^9}, {3.796431329606385*^9, 
+   3.796431356065595*^9}, {3.7964327946145573`*^9, 3.796432873456643*^9}, 
+   3.796432947511507*^9, {3.7964331780861363`*^9, 3.796433188837371*^9}, {
+   3.7964332205814056`*^9, 3.7964332235654573`*^9}, 3.796433290698106*^9, {
+   3.7964334399388046`*^9, 3.7964334727210965`*^9}, {3.7964335292787724`*^9, 
+   3.7964335455681915`*^9}, {3.7964336256050477`*^9, 3.796433626883628*^9}, {
+   3.79644254285199*^9, 3.796442569519638*^9}, {3.796442643955738*^9, 
+   3.7964426479437532`*^9}, {3.7964431581749563`*^9, 
+   3.7964431735527787`*^9}, {3.796499909569053*^9, 3.7964999712433357`*^9}, 
+   3.796500285848811*^9, {3.7965004601641636`*^9, 3.796500464311371*^9}, {
+   3.7965007487052436`*^9, 3.796500754728756*^9}, {3.7965007942296085`*^9, 
+   3.7965008144360437`*^9}, {3.7966066854531636`*^9, 
+   3.7966066885949774`*^9}, {3.796606725229041*^9, 3.7966067276968837`*^9}, 
+   3.7966081101819167`*^9, {3.796946324730117*^9, 3.7969463262305746`*^9}, {
+   3.7971071197141275`*^9, 3.797107209043025*^9}, {3.7971072979660845`*^9, 
+   3.797107301353022*^9}, {3.797108164715864*^9, 3.7971082039812574`*^9}, {
+   3.7971082411969695`*^9, 3.7971082793879004`*^9}, {3.7971085532187147`*^9, 
+   3.797108578602683*^9}},
+ CellLabel->"In[27]:=",ExpressionUUID->"7e3ef0d1-404f-4eb8-b40d-7be0883e5c51"],
+
+Cell[BoxData[
+ RowBox[{"(*", " ", 
+  RowBox[{
+  "for", " ", "getting", " ", "more", " ", "outcomes", " ", "from", " ", "a", 
+   " ", "prediction", " ", "that", " ", 
+   RowBox[{"you", "'"}], "ve", " ", "already", " ", "made"}], " ", 
+  "*)"}]], "Input",
+ CellChangeTimes->{{3.7966048169138365`*^9, 3.796604824743116*^9}, {
+  3.7966069579699907`*^9, 3.796606962726446*^9}, {3.796608234070084*^9, 
+  3.7966082376607156`*^9}, {3.7966653476400566`*^9, 
+  3.7966653494043646`*^9}},ExpressionUUID->"580b32ec-7560-4214-9ced-\
+6bcb886bc096"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"rxn", "[", 
+   RowBox[{"req_String", ",", "projID_String", ",", "predID_String"}], "]"}], 
+  ":=", 
+  RowBox[{"Module", "[", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "getPred", ",", "reactants", ",", "morePreds", ",", "projName", ",", 
+      RowBox[{"rxnImgList", "=", 
+       RowBox[{"{", "}"}]}], ",", 
+      RowBox[{"rxnConfList", "=", 
+       RowBox[{"{", "}"}]}], ",", "rxnImages", ",", "rxnTables", ",", 
+      "preds"}], "}"}], ",", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+    RowBox[{"If", "[", 
+     RowBox[{
+      RowBox[{"req", "\[Equal]", "\"\<more predictions\>\""}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"getPred", "=", 
+        RowBox[{
+         RowBox[{"HTTPRequest", "[", 
+          RowBox[{
+           RowBox[{"URL", "[", 
+            RowBox[{
+            "baseURL", "<>", "\"\</rxn/api/api/v1/predictions/\>\"", "<>", 
+             "predID"}], "]"}], ",", "\[IndentingNewLine]", 
+           RowBox[{"<|", 
+            RowBox[{
+             RowBox[{"\"\<Method\>\"", "\[Rule]", "\"\<GET\>\""}], ",", 
+             "\[IndentingNewLine]", 
+             RowBox[{"\"\<Headers\>\"", "\[Rule]", 
+              RowBox[{"<|", 
+               RowBox[{
+                RowBox[{
+                "\"\<Content-Type\>\"", "\[Rule]", 
+                 "\"\<application/json\>\""}], ",", "\[IndentingNewLine]", 
+                RowBox[{"\"\<Authorization\>\"", "\[Rule]", "authKey"}]}], 
+               "|>"}]}]}], "\[IndentingNewLine]", "|>"}]}], "]"}], "//", 
+         RowBox[{
+          RowBox[{"URLExecute", "[", 
+           RowBox[{"#", ",", "\"\<RawJSON\>\""}], "]"}], "&"}]}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"reactants", "=", 
+        RowBox[{"getPred", "[", 
+         RowBox[{
+         "\"\<payload\>\"", ",", "\"\<request\>\"", ",", 
+          "\"\<reactants\>\""}], "]"}]}], ";", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{"Pause", "[", "10", "]"}], ";", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{"morePreds", "=", 
+        RowBox[{
+         RowBox[{"HTTPRequest", "[", 
+          RowBox[{
+           RowBox[{"URL", "[", 
+            RowBox[{
+            "baseURL", "<>", 
+             "\"\</rxn/api/api/v1/predictions/prb?predictionId=\>\"", "<>", 
+             "predID", "<>", "\"\<&projectId=\>\"", "<>", "projID"}], "]"}], 
+           ",", "\[IndentingNewLine]", 
+           RowBox[{"<|", 
+            RowBox[{
+             RowBox[{"\"\<Method\>\"", "\[Rule]", "\"\<POST\>\""}], ",", 
+             "\[IndentingNewLine]", 
+             RowBox[{"\"\<Headers\>\"", "\[Rule]", 
+              RowBox[{"<|", 
+               RowBox[{
+                RowBox[{
+                "\"\<Content-Type\>\"", "\[Rule]", 
+                 "\"\<application/json\>\""}], ",", "\[IndentingNewLine]", 
+                RowBox[{"\"\<Authorization\>\"", "\[Rule]", "authKey"}]}], 
+               "|>"}]}], ",", "\[IndentingNewLine]", 
+             RowBox[{"\"\<Body\>\"", "\[Rule]", 
+              RowBox[{"ExportString", "[", 
+               RowBox[{
+                RowBox[{"<|", 
+                 RowBox[{"\"\<reactants\>\"", "\[Rule]", "reactants"}], 
+                 "|>"}], ",", "\"\<JSON\>\""}], "]"}]}]}], "|>"}]}], "]"}], "//", 
+         RowBox[{
+          RowBox[{"URLExecute", "[", 
+           RowBox[{"#", ",", "\"\<RawJSON\>\""}], "]"}], "&"}]}]}], ";", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"Pause", "[", "10", "]"}], ";", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{"getPred", "=", 
+        RowBox[{
+         RowBox[{"HTTPRequest", "[", 
+          RowBox[{
+           RowBox[{"URL", "[", 
+            RowBox[{
+            "baseURL", "<>", "\"\</rxn/api/api/v1/predictions/\>\"", "<>", 
+             "predID"}], "]"}], ",", "\[IndentingNewLine]", 
+           RowBox[{"<|", 
+            RowBox[{
+             RowBox[{"\"\<Method\>\"", "\[Rule]", "\"\<GET\>\""}], ",", 
+             "\[IndentingNewLine]", 
+             RowBox[{"\"\<Headers\>\"", "\[Rule]", 
+              RowBox[{"<|", 
+               RowBox[{
+                RowBox[{
+                "\"\<Content-Type\>\"", "\[Rule]", 
+                 "\"\<application/json\>\""}], ",", "\[IndentingNewLine]", 
+                RowBox[{"\"\<Authorization\>\"", "\[Rule]", "authKey"}]}], 
+               "|>"}]}]}], "|>"}]}], "]"}], "//", 
+         RowBox[{
+          RowBox[{"URLExecute", "[", 
+           RowBox[{"#", ",", "\"\<RawJSON\>\""}], "]"}], "&"}]}]}], ";", "\n",
+        "\[IndentingNewLine]", 
+       RowBox[{"projName", "=", 
+        RowBox[{"StringReplace", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{
+            RowBox[{"getPred", "[", 
+             RowBox[{"\"\<payload\>\"", ",", "\"\<attempts\>\""}], "]"}], "[", 
+            RowBox[{"[", "1", "]"}], "]"}], "[", "\"\<name\>\"", "]"}], ",", 
+          RowBox[{
+           RowBox[{"\"\<_\>\"", "~~", "___"}], "\[Rule]", "\"\<\>\""}]}], 
+         "]"}]}], ";", "\[IndentingNewLine]", "\n", 
+       RowBox[{"Do", "[", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+         "add", " ", "each", " ", "rxn", " ", "img", " ", "to", " ", "the", 
+          " ", "list"}], " ", "*)"}], "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"AppendTo", "[", 
+          RowBox[{"rxnImgList", ",", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"getPred", "[", 
+              RowBox[{"\"\<payload\>\"", ",", "\"\<attempts\>\""}], "]"}], 
+             "[", 
+             RowBox[{"[", "i", "]"}], "]"}], "[", "\"\<reactionImage\>\"", 
+            "]"}]}], "]"}], ",", "\[IndentingNewLine]", 
+         RowBox[{"{", 
+          RowBox[{"i", ",", "1", ",", 
+           RowBox[{"Length", "[", 
+            RowBox[{"getPred", "[", 
+             RowBox[{"\"\<payload\>\"", ",", "\"\<attempts\>\""}], "]"}], 
+            "]"}]}], "}"}]}], "]"}], ";", "\n", 
+       RowBox[{"Do", "[", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+         "add", " ", "each", " ", "confidence", " ", "to", " ", "the", " ", 
+          "list"}], " ", "*)"}], "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"AppendTo", "[", 
+          RowBox[{"rxnConfList", ",", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"getPred", "[", 
+              RowBox[{"\"\<payload\>\"", ",", "\"\<attempts\>\""}], "]"}], 
+             "[", 
+             RowBox[{"[", "i", "]"}], "]"}], "[", "\"\<confidence\>\"", 
+            "]"}]}], "]"}], ",", "\[IndentingNewLine]", 
+         RowBox[{"{", 
+          RowBox[{"i", ",", "1", ",", 
+           RowBox[{"Length", "[", 
+            RowBox[{"getPred", "[", 
+             RowBox[{"\"\<payload\>\"", ",", "\"\<attempts\>\""}], "]"}], 
+            "]"}]}], "}"}]}], "]"}], ";", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", "\n", 
+       RowBox[{"rxnImages", "=", 
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           RowBox[{"ResourceFunction", "[", "\"\<SVGImport\>\"", "]"}], "[", 
+           "#", "]"}], "&"}], "/@", "rxnImgList"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"rxnTables", "=", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"TableForm", "[", 
+           RowBox[{
+            RowBox[{"{", 
+             RowBox[{"{", 
+              RowBox[{"projName", ",", "projID", ",", "predID", ",", "#"}], 
+              "}"}], "}"}], ",", 
+            RowBox[{"TableHeadings", "\[Rule]", 
+             RowBox[{"{", 
+              RowBox[{"None", ",", 
+               RowBox[{"{", 
+                RowBox[{
+                "\"\<Project Name\>\"", ",", "\"\<Project ID\>\"", ",", 
+                 "\"\<Prediction ID\>\"", ",", 
+                 "\"\<Prediction Confidence\>\""}], "}"}]}], "}"}]}]}], "]"}],
+           "&"}], "/@", "rxnConfList"}]}], ";", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{"preds", "=", 
+        RowBox[{"Partition", "[", 
+         RowBox[{
+          RowBox[{"Riffle", "[", 
+           RowBox[{"rxnImages", ",", "rxnTables"}], "]"}], ",", "2"}], 
+         "]"}]}], ";", "\[IndentingNewLine]", "preds"}]}], 
+     "\[IndentingNewLine]", "]"}]}], "]"}]}]], "Input",
+ InitializationCell->True,
+ CellChangeTimes->{{3.7966048273575273`*^9, 3.796604858716375*^9}, {
+   3.7966056020915155`*^9, 3.7966056709887476`*^9}, {3.7966060217115064`*^9, 
+   3.7966061234995856`*^9}, {3.796606161962845*^9, 3.796606195687956*^9}, {
+   3.796606265747727*^9, 3.796606277792094*^9}, {3.7966069778376865`*^9, 
+   3.796606986757205*^9}, {3.7966070212949324`*^9, 3.7966071335851355`*^9}, {
+   3.7966072008858385`*^9, 3.7966072026884594`*^9}, {3.7966073107003326`*^9, 
+   3.796607312581195*^9}, 3.7966074243015375`*^9, {3.796664227152815*^9, 
+   3.7966642999232216`*^9}, {3.7966643394691095`*^9, 
+   3.7966643746347904`*^9}, {3.7966646424516697`*^9, 
+   3.7966646615983305`*^9}, {3.7966647277832966`*^9, 3.796664734626317*^9}, {
+   3.7966648219309006`*^9, 3.7966649213362985`*^9}, {3.796665148463957*^9, 
+   3.796665180509827*^9}, {3.7966652476754694`*^9, 3.7966652478630915`*^9}, 
+   3.7966742404776964`*^9, {3.7967464247039127`*^9, 3.7967464374365673`*^9}, {
+   3.796835848604594*^9, 3.7968358563149652`*^9}, {3.796946328686369*^9, 
+   3.796946329578334*^9}, {3.7969471229514885`*^9, 3.7969471239833384`*^9}, {
+   3.797111247008312*^9, 3.797111247730384*^9}},
+ CellLabel->"In[28]:=",ExpressionUUID->"33418062-8d7f-4fd0-9d85-dc80a4d8069f"],
+
+Cell[BoxData[
+ RowBox[{"(*", " ", 
+  RowBox[{"for", " ", "making", " ", "a", " ", "new", " ", "retrosynthesis"}],
+   " ", "*)"}]], "Input",
+ CellChangeTimes->{{3.796835804137599*^9, 
+  3.79683580943839*^9}},ExpressionUUID->"de6701c3-994e-4895-9c3d-\
+a10696ff6ce7"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"rxn", "[", 
+   RowBox[{"req_String", ",", "projID_String", ",", "prod_List"}], "]"}], ":=", 
+  RowBox[{"Module", "[", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "prodSMILE", ",", "createRet", ",", "retID", ",", "getRet", ",", 
+      "seqMolecList", ",", "seqSMILES", ",", "molecPlots", ",", "stepsImgs", 
+      ",", "stepDescs", ",", "retTable", ",", "retConf", ",", "retOptScore", 
+      ",", "retImg", ",", "rClass", ",", "seqConf", ",", 
+      RowBox[{"arrow", "=", 
+       RowBox[{"Graphics", "[", 
+        RowBox[{
+         RowBox[{"Text", "@", 
+          RowBox[{"Style", "[", 
+           RowBox[{"\"\<\[DoubleRightArrow]\>\"", ",", "60"}], "]"}]}], ",", 
+         RowBox[{"BaselinePosition", "\[Rule]", "Center"}], ",", 
+         RowBox[{"ImageSize", "\[Rule]", "100"}]}], "]"}]}]}], "}"}], ",", 
+    "\[IndentingNewLine]", "\[IndentingNewLine]", 
+    RowBox[{"If", "[", 
+     RowBox[{"(*", " ", 
+      RowBox[{
+      "this", " ", "code", " ", "block", " ", "runs", " ", "to", " ", "make", 
+       " ", "and", " ", "get", " ", "a", " ", "new", " ", "retrosynthesis"}], 
+      " ", "*)"}], "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"req", "\[Equal]", "\"\<new retrosynthesis\>\""}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"Which", "[", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"ImageQ", "[", 
+          RowBox[{"prod", "[", 
+           RowBox[{"[", "1", "]"}], "]"}], "]"}], ",", "\[IndentingNewLine]", 
+         RowBox[{"prodSMILE", "=", 
+          RowBox[{
+           RowBox[{"MoleculeRecognize", "[", 
+            RowBox[{"prod", "[", 
+             RowBox[{"[", "1", "]"}], "]"}], "]"}], "[", "\"\<SMILES\>\"", 
+           "]"}]}], ",", "\[IndentingNewLine]", 
+         RowBox[{"StringQ", "[", 
+          RowBox[{"prod", "[", 
+           RowBox[{"[", "1", "]"}], "]"}], "]"}], ",", "\[IndentingNewLine]", 
+         RowBox[{"prodSMILE", "=", 
+          RowBox[{"prod", "[", 
+           RowBox[{"[", "1", "]"}], "]"}]}]}], "\[IndentingNewLine]", "]"}], 
+       ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"createRet", "=", 
+        RowBox[{
+         RowBox[{"HTTPRequest", "[", 
+          RowBox[{
+           RowBox[{"URL", "[", 
+            RowBox[{
+            "baseURL", "<>", 
+             "\"\</rxn/api/api/v1/retrosynthesis/rs?projectId=\>\"", "<>", 
+             "projID"}], "]"}], ",", "\[IndentingNewLine]", 
+           RowBox[{"<|", 
+            RowBox[{
+             RowBox[{"\"\<Method\>\"", "\[Rule]", "\"\<POST\>\""}], ",", 
+             "\[IndentingNewLine]", 
+             RowBox[{"\"\<Headers\>\"", "\[Rule]", 
+              RowBox[{"<|", 
+               RowBox[{
+                RowBox[{
+                "\"\<Content-Type\>\"", "\[Rule]", 
+                 "\"\<application/json\>\""}], ",", "\[IndentingNewLine]", 
+                RowBox[{"\"\<Authorization\>\"", "\[Rule]", "authKey"}]}], 
+               "|>"}]}], ",", "\[IndentingNewLine]", 
+             RowBox[{"\"\<Body\>\"", "\[Rule]", 
+              RowBox[{"ExportString", "[", 
+               RowBox[{
+                RowBox[{"<|", "\[IndentingNewLine]", 
+                 RowBox[{
+                  RowBox[{
+                  "\"\<isInteractive\>\"", "\[Rule]", "\"\<false\>\""}], ",", 
+                  "\[IndentingNewLine]", 
+                  RowBox[{"\"\<parameters\>\"", "\[Rule]", 
+                   RowBox[{"<|", 
+                    RowBox[{
+                    RowBox[{
+                    "\"\<availability_pricing_threshold\>\"", "\[Rule]", 
+                    "0"}], ",", "\[IndentingNewLine]", 
+                    RowBox[{
+                    "\"\<available_smiles\>\"", "\[Rule]", "\"\<\>\""}], ",", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"\"\<exclude_smiles\>\"", "\[Rule]", "\"\<\>\""}],
+                     ",", "\[IndentingNewLine]", 
+                    RowBox[{
+                    "\"\<exclude_substructures\>\"", "\[Rule]", "\"\<\>\""}], 
+                    ",", "\[IndentingNewLine]", 
+                    RowBox[{
+                    "\"\<exclude_target_molecule\>\"", "\[Rule]", 
+                    "\"\<true\>\""}], ",", "\[IndentingNewLine]", 
+                    RowBox[{"\"\<fap\>\"", "\[Rule]", "0"}], ",", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"\"\<max_steps\>\"", "\[Rule]", "0"}], ",", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"\"\<nbeams\>\"", "\[Rule]", "0"}], ",", 
+                    "\[IndentingNewLine]", 
+                    RowBox[{"\"\<pruning_steps\>\"", "\[Rule]", "0"}]}], 
+                    "|>"}]}], ",", "\[IndentingNewLine]", 
+                  RowBox[{"\"\<product\>\"", "\[Rule]", "prodSMILE"}]}], 
+                 "\[IndentingNewLine]", "|>"}], ",", "\"\<JSON\>\""}], 
+               "]"}]}]}], "|>"}]}], "]"}], "//", 
+         RowBox[{
+          RowBox[{"URLExecute", "[", 
+           RowBox[{"#", ",", "\"\<RawJSON\>\""}], "]"}], "&"}]}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"retID", "=", 
+        RowBox[{"createRet", "[", 
+         RowBox[{"\"\<payload\>\"", ",", "\"\<id\>\""}], "]"}]}], ";", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"Pause", "[", "10", "]"}], ";", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{"getRet", "=", 
+        RowBox[{
+         RowBox[{"HTTPRequest", "[", 
+          RowBox[{
+           RowBox[{"URL", "[", 
+            RowBox[{
+            "baseURL", "<>", "\"\</rxn/api/api/v1/retrosynthesis/\>\"", "<>", 
+             "retID"}], "]"}], ",", "\[IndentingNewLine]", 
+           RowBox[{"<|", 
+            RowBox[{
+             RowBox[{"\"\<Method\>\"", "\[Rule]", "\"\<GET\>\""}], ",", 
+             "\[IndentingNewLine]", 
+             RowBox[{"\"\<Headers\>\"", "\[Rule]", 
+              RowBox[{"<|", 
+               RowBox[{
+                RowBox[{
+                "\"\<Content-Type\>\"", "\[Rule]", 
+                 "\"\<application/json\>\""}], ",", "\[IndentingNewLine]", 
+                RowBox[{"\"\<Authorization\>\"", "\[Rule]", "authKey"}]}], 
+               "|>"}]}]}], "|>"}]}], "]"}], "//", 
+         RowBox[{
+          RowBox[{"URLExecute", "[", 
+           RowBox[{"#", ",", "\"\<RawJSON\>\""}], "]"}], "&"}]}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"While", "[", 
+        RowBox[{"(*", " ", 
+         RowBox[{
+         "Loops", " ", "until", " ", "the", " ", "get", " ", "request", " ", 
+          "says", " ", "the", " ", "task", " ", "status", " ", "is", " ", 
+          "\"\<DONE\>\""}], " ", "*)"}], "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"getRet", "[", 
+           RowBox[{
+           "\"\<payload\>\"", ",", "\"\<task\>\"", ",", "\"\<status\>\""}], 
+           "]"}], "\[NotEqual]", "\"\<DONE\>\""}], ",", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"Pause", "[", "10", "]"}], ";", "\[IndentingNewLine]", 
+          RowBox[{"getRet", "=", 
+           RowBox[{
+            RowBox[{"HTTPRequest", "[", 
+             RowBox[{
+              RowBox[{"URL", "[", 
+               RowBox[{
+               "baseURL", "<>", "\"\</rxn/api/api/v1/retrosynthesis/\>\"", "<>",
+                 "retID"}], "]"}], ",", "\[IndentingNewLine]", 
+              RowBox[{"<|", 
+               RowBox[{
+                RowBox[{"\"\<Method\>\"", "\[Rule]", "\"\<GET\>\""}], ",", 
+                "\[IndentingNewLine]", 
+                RowBox[{"\"\<Headers\>\"", "\[Rule]", 
+                 RowBox[{"<|", 
+                  RowBox[{
+                   RowBox[{
+                   "\"\<Content-Type\>\"", "\[Rule]", 
+                    "\"\<application/json\>\""}], ",", "\[IndentingNewLine]", 
+                   RowBox[{"\"\<Authorization\>\"", "\[Rule]", "authKey"}]}], 
+                  "|>"}]}]}], "|>"}]}], "]"}], "//", 
+            RowBox[{
+             RowBox[{"URLExecute", "[", 
+              RowBox[{"#", ",", "\"\<RawJSON\>\""}], "]"}], "&"}]}]}], 
+          ";"}]}], "\[IndentingNewLine]", "\[IndentingNewLine]", "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"retConf", "=", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"getRet", "[", 
+           RowBox[{"\"\<payload\>\"", ",", "\"\<sequences\>\""}], "]"}], "[", 
+          RowBox[{"[", "1", "]"}], "]"}], "[", "\"\<confidence\>\"", "]"}]}], 
+       ";", "\[IndentingNewLine]", 
+       RowBox[{"seqConf", "=", 
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           RowBox[{
+            RowBox[{"getRet", "[", 
+             RowBox[{"\"\<payload\>\"", ",", "\"\<siblings\>\""}], "]"}], "[", 
+            RowBox[{"[", 
+             RowBox[{"-", "1"}], "]"}], "]"}], "[", "\"\<reactions\>\"", 
+           "]"}], "[", 
+          RowBox[{"[", "1", "]"}], "]"}], "[", "\"\<confidence\>\"", "]"}]}], 
+       ";", "\[IndentingNewLine]", 
+       RowBox[{"retOptScore", "=", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"getRet", "[", 
+           RowBox[{"\"\<payload\>\"", ",", "\"\<sequences\>\""}], "]"}], "[", 
+          RowBox[{"[", "1", "]"}], "]"}], "[", "\"\<optimizationScore\>\"", 
+         "]"}]}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"molecPlots", "=", 
+        RowBox[{"MoleculePlot", "[", 
+         RowBox[{
+          RowBox[{"Molecule", "[", 
+           RowBox[{"StringReplace", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{
+               RowBox[{
+                RowBox[{
+                 RowBox[{"getRet", "[", 
+                  RowBox[{"\"\<payload\>\"", ",", "\"\<siblings\>\""}], "]"}],
+                  "[", 
+                 RowBox[{"[", 
+                  RowBox[{"-", "1"}], "]"}], "]"}], "[", "\"\<reactions\>\"", 
+                "]"}], "[", 
+               RowBox[{"[", "1", "]"}], "]"}], "[", "\"\<smiles\>\"", "]"}], 
+             ",", 
+             RowBox[{"\"\<~\>\"", "\[Rule]", "\"\<.\>\""}]}], "]"}], "]"}], 
+          ",", 
+          RowBox[{"ImageSize", "\[Rule]", "Large"}]}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"retImg", "=", 
+        RowBox[{"GraphicsRow", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"MoleculePlot", "[", 
+            RowBox[{"Molecule", "[", "prodSMILE", "]"}], "]"}], ",", "arrow", 
+           ",", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"StringReplace", "[", 
+              RowBox[{
+               RowBox[{
+                RowBox[{
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"getRet", "[", 
+                    RowBox[{"\"\<payload\>\"", ",", "\"\<siblings\>\""}], 
+                    "]"}], "[", 
+                   RowBox[{"[", 
+                    RowBox[{"-", "1"}], "]"}], "]"}], "[", 
+                  "\"\<reactions\>\"", "]"}], "[", 
+                 RowBox[{"[", "1", "]"}], "]"}], "[", "\"\<smiles\>\"", "]"}],
+                ",", 
+               RowBox[{"\"\<~\>\"", "\[Rule]", "\"\<.\>\""}]}], "]"}], "//", 
+             "Molecule"}], "//", "MoleculePlot"}]}], "}"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"rClass", "=", 
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           RowBox[{
+            RowBox[{"getRet", "[", 
+             RowBox[{"\"\<payload\>\"", ",", "\"\<siblings\>\""}], "]"}], "[", 
+            RowBox[{"[", 
+             RowBox[{"-", "1"}], "]"}], "]"}], "[", "\"\<reactions\>\"", 
+           "]"}], "[", 
+          RowBox[{"[", "1", "]"}], "]"}], "[", "\"\<rclass\>\"", "]"}]}], ";",
+        "\[IndentingNewLine]", 
+       RowBox[{"retTable", "=", 
+        RowBox[{"TableForm", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"{", 
+            RowBox[{
+            "projID", ",", "retID", ",", "retConf", ",", "retOptScore", ",", 
+             "rClass", ",", "seqConf"}], "}"}], "}"}], ",", 
+          RowBox[{"TableHeadings", "\[Rule]", 
+           RowBox[{"{", 
+            RowBox[{"None", ",", 
+             RowBox[{"{", 
+              RowBox[{
+              "\"\<Project ID\>\"", ",", "\"\<Retrosynthesis ID\>\"", ",", 
+               "\"\<Retrosynthesis Confidence\>\"", ",", 
+               "\"\<Retrosynthesis Optimization Score\>\"", ",", 
+               "\"\<Reaction Class\>\"", ",", "\"\<Sequence Confidence\>\""}],
+               "}"}]}], "}"}]}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{"retImg", "\[IndentingNewLine]", "retTable"}]}]}], 
+     "\[IndentingNewLine]", "]"}]}], "]"}]}]], "Input",
+ InitializationCell->True,
+ CellChangeTimes->{{3.7968358170879173`*^9, 3.796835832594433*^9}, {
+   3.7968358708819685`*^9, 3.7968359333312864`*^9}, {3.796835981705023*^9, 
+   3.7968359899559493`*^9}, {3.7968360907562523`*^9, 3.796836330750431*^9}, {
+   3.7969463321985445`*^9, 3.7969463325917516`*^9}, {3.796946774505316*^9, 
+   3.796946798875902*^9}, {3.7969468621359167`*^9, 3.796946918320947*^9}, {
+   3.796946967680171*^9, 3.7969469735056067`*^9}, 3.7969481634850407`*^9, {
+   3.796948676364235*^9, 3.7969487596128445`*^9}, {3.7969487914512095`*^9, 
+   3.796948817690533*^9}, {3.7969490458071623`*^9, 3.7969490502357745`*^9}, {
+   3.7969492493509307`*^9, 3.7969492496864824`*^9}, {3.7969494290927463`*^9, 
+   3.796949433755413*^9}, {3.796949492663494*^9, 3.796949495289606*^9}, 
+   3.7969608163776503`*^9, {3.7969608470639677`*^9, 3.79696086071033*^9}, 
+   3.796960968674287*^9, {3.7969610243767815`*^9, 3.796961057049614*^9}, {
+   3.7969611618098745`*^9, 3.796961163675684*^9}, {3.797037269805193*^9, 
+   3.7970372700082693`*^9}, {3.797037311016004*^9, 3.7970373166552944`*^9}, {
+   3.797037365329776*^9, 3.797037381757304*^9}, {3.7970374542248287`*^9, 
+   3.7970374904676356`*^9}, {3.7970891003406334`*^9, 3.797089101668478*^9}, {
+   3.797089138714279*^9, 3.7970891769808683`*^9}, {3.797089261737235*^9, 
+   3.797089265095817*^9}, {3.797089501087719*^9, 3.797089517913377*^9}, {
+   3.7970896705811777`*^9, 3.7970896882456274`*^9}, {3.7970898761181417`*^9, 
+   3.7970898976997557`*^9}, {3.7971062033152676`*^9, 
+   3.7971062471140313`*^9}, {3.797108458728712*^9, 3.797108530180871*^9}, {
+   3.797108593559558*^9, 3.7971086067378592`*^9}, 3.7971087073158603`*^9, {
+   3.797108950095908*^9, 3.7971090337805576`*^9}, 3.7971093026067343`*^9, {
+   3.7971096967377987`*^9, 3.7971097345961294`*^9}, {3.797109807797903*^9, 
+   3.797109835355569*^9}, 3.7971099112833257`*^9, {3.797110114152934*^9, 
+   3.79711013922266*^9}, {3.7971101886148252`*^9, 3.797110226729886*^9}, {
+   3.7975313153611364`*^9, 3.7975313263488636`*^9}, 3.7975314018620143`*^9, 
+   3.797531586168334*^9, {3.7975316400481744`*^9, 3.797531640420173*^9}},
+ CellLabel->"In[22]:=",ExpressionUUID->"8182a722-5fad-4035-89c2-8756cdbf1f84"],
+
+Cell[BoxData[
+ RowBox[{"(*", " ", 
+  RowBox[{
+   RowBox[{"for", " ", "making", " ", "a", " ", "new", " ", "project"}], ",", 
+   " ", 
+   RowBox[{"listing", " ", "all", " ", "project", " ", "attempts"}], ",", " ", 
+   RowBox[{
+   "or", " ", "recovering", " ", "a", " ", "past", " ", "prediction", " ", 
+    "or", " ", "retrosynthesis"}]}], " ", "*)"}]], "Input",
+ CellChangeTimes->{{3.796442782754593*^9, 3.796442802856778*^9}, {
+  3.7968364636169467`*^9, 
+  3.796836465559746*^9}},ExpressionUUID->"1506debf-6320-4293-a68e-\
+0247bed5acad"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"rxn", "[", 
+   RowBox[{"req_String", ",", "IDorName_String"}], "]"}], ":=", 
+  RowBox[{"Module", "[", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "myProjects", ",", "myProjNames", ",", "myProjIDs", ",", "nameRule", ",",
+       "idRule", ",", "myProjectsData", ",", "allProjAs", ",", "getPred", ",",
+       "projName", ",", "rxnImg", ",", "rxnConf", ",", "predID", ",", 
+      "projID", ",", "createProj", ",", "projectID", ",", "getRet", ",", 
+      "seqMolecList", ",", "seqSMILES", ",", "retConf", ",", "retOptScore", 
+      ",", "molecPlots", ",", "retTable", ",", "stepsImgs", ",", 
+      RowBox[{"arrow", "=", 
+       RowBox[{"Graphics", "[", 
+        RowBox[{
+         RowBox[{"Text", "@", 
+          RowBox[{"Style", "[", 
+           RowBox[{"\"\<\[DoubleRightArrow]\>\"", ",", "60"}], "]"}]}], ",", 
+         RowBox[{"BaselinePosition", "\[Rule]", "Center"}], ",", 
+         RowBox[{"ImageSize", "\[Rule]", "100"}]}], "]"}]}], ",", "stepDescs",
+       ",", "retImg", ",", "prodSMILES", ",", "rClass", ",", "seqConf"}], 
+     "}"}], ",", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+    RowBox[{"Which", "[", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"req", "\[Equal]", "\"\<new project\>\""}], ",", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+        RowBox[{"for", " ", "a", " ", "\"\<new project\>\""}], ",", " ", 
+        RowBox[{"following", " ", "code", " ", "block", " ", "runs"}]}], " ", 
+       "*)"}], "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"createProj", "=", 
+        RowBox[{
+         RowBox[{"HTTPRequest", "[", 
+          RowBox[{
+           RowBox[{"URL", "[", 
+            RowBox[{"baseURL", "<>", "\"\</rxn/api/api/v1/projects\>\""}], 
+            "]"}], ",", "\[IndentingNewLine]", 
+           RowBox[{"<|", 
+            RowBox[{
+             RowBox[{"\"\<Method\>\"", "\[Rule]", "\"\<POST\>\""}], ",", 
+             "\[IndentingNewLine]", 
+             RowBox[{"\"\<Headers\>\"", "\[Rule]", 
+              RowBox[{"<|", 
+               RowBox[{
+                RowBox[{
+                "\"\<Content-Type\>\"", "\[Rule]", 
+                 "\"\<application/json\>\""}], ",", "\[IndentingNewLine]", 
+                RowBox[{"\"\<Authorization\>\"", "\[Rule]", "authKey"}]}], 
+               "|>"}]}], ",", "\[IndentingNewLine]", 
+             RowBox[{"\"\<Body\>\"", "\[Rule]", 
+              RowBox[{"ExportString", "[", 
+               RowBox[{
+                RowBox[{"<|", 
+                 RowBox[{
+                  RowBox[{"\"\<name\>\"", "\[Rule]", 
+                   RowBox[{"ToString", "[", "IDorName", "]"}]}], ",", 
+                  RowBox[{"\"\<invitations\>\"", "\[Rule]", 
+                   RowBox[{"{", "}"}]}]}], "|>"}], ",", "\"\<JSON\>\""}], 
+               "]"}]}]}], "|>"}]}], "]"}], "//", 
+         RowBox[{
+          RowBox[{"URLExecute", "[", 
+           RowBox[{"#", ",", "\"\<RawJSON\>\""}], "]"}], "&"}]}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"projectID", "=", 
+        RowBox[{"createProj", "[", 
+         RowBox[{"\"\<payload\>\"", ",", "\"\<id\>\""}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"TableForm", "[", 
+        RowBox[{
+         RowBox[{"{", 
+          RowBox[{"{", 
+           RowBox[{"IDorName", ",", "projectID"}], "}"}], "}"}], ",", 
+         RowBox[{"TableHeadings", "\[Rule]", 
+          RowBox[{"{", 
+           RowBox[{"None", ",", 
+            RowBox[{"{", 
+             RowBox[{"\"\<Project Name\>\"", ",", "\"\<Project ID\>\""}], 
+             "}"}]}], "}"}]}]}], "]"}]}], "\[IndentingNewLine]", ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"req", "\[Equal]", " ", "\"\<all project attempts\>\""}], ",", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+        RowBox[{"for", " ", "getting", " ", "\"\<all project attempts\>\""}], 
+        ",", " ", 
+        RowBox[{"following", " ", "code", " ", "block", " ", "runs"}]}], " ", 
+       "*)"}], "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"allProjAs", "=", 
+        RowBox[{
+         RowBox[{"HTTPRequest", "[", 
+          RowBox[{
+           RowBox[{"URL", "[", 
+            RowBox[{
+            "baseURL", "<>", "\"\</rxn/api/api/v1/projects/\>\"", "<>", 
+             "IDorName", "<>", "\"\</attempts?raw={}\>\""}], "]"}], ",", 
+           "\[IndentingNewLine]", 
+           RowBox[{"<|", 
+            RowBox[{
+             RowBox[{"\"\<Method\>\"", "\[Rule]", "\"\<GET\>\""}], ",", 
+             "\[IndentingNewLine]", 
+             RowBox[{"\"\<Headers\>\"", "\[Rule]", 
+              RowBox[{"<|", 
+               RowBox[{
+                RowBox[{
+                "\"\<Content-Type\>\"", "\[Rule]", 
+                 "\"\<application/json\>\""}], ",", "\[IndentingNewLine]", 
+                RowBox[{"\"\<Authorization\>\"", "\[Rule]", "authKey"}]}], 
+               "|>"}]}]}], "\[IndentingNewLine]", "|>"}]}], "]"}], "//", 
+         RowBox[{
+          RowBox[{"URLExecute", "[", 
+           RowBox[{"#", ",", "\"\<RawJSON\>\""}], "]"}], "&"}]}]}], ";", 
+       "\[IndentingNewLine]", "allProjAs"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"req", "\[Equal]", "\"\<recover prediction\>\""}], ",", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+        RowBox[{"to", " ", "\"\<recover prediction\>\""}], ",", " ", 
+        RowBox[{"following", " ", "code", " ", "block", " ", "runs"}]}], " ", 
+       "*)"}], "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"getPred", "=", 
+        RowBox[{
+         RowBox[{"HTTPRequest", "[", 
+          RowBox[{
+           RowBox[{"URL", "[", 
+            RowBox[{
+            "baseURL", "<>", "\"\</rxn/api/api/v1/predictions/\>\"", "<>", 
+             "IDorName"}], "]"}], ",", "\[IndentingNewLine]", 
+           RowBox[{"<|", 
+            RowBox[{
+             RowBox[{"\"\<Method\>\"", "\[Rule]", "\"\<GET\>\""}], ",", 
+             "\[IndentingNewLine]", 
+             RowBox[{"\"\<Headers\>\"", "\[Rule]", 
+              RowBox[{"<|", 
+               RowBox[{
+                RowBox[{
+                "\"\<Content-Type\>\"", "\[Rule]", 
+                 "\"\<application/json\>\""}], ",", "\[IndentingNewLine]", 
+                RowBox[{"\"\<Authorization\>\"", "\[Rule]", "authKey"}]}], 
+               "|>"}]}]}], "|>"}]}], "]"}], "//", 
+         RowBox[{
+          RowBox[{"URLExecute", "[", 
+           RowBox[{"#", ",", "\"\<RawJSON\>\""}], "]"}], "&"}]}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"projName", "=", 
+        RowBox[{"StringReplace", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{
+            RowBox[{"getPred", "[", 
+             RowBox[{"\"\<payload\>\"", ",", "\"\<attempts\>\""}], "]"}], "[", 
+            RowBox[{"[", "1", "]"}], "]"}], "[", "\"\<name\>\"", "]"}], ",", 
+          RowBox[{
+           RowBox[{"\"\<_\>\"", "~~", "___"}], "\[Rule]", "\"\<\>\""}]}], 
+         "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"projID", "=", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"getPred", "[", 
+           RowBox[{"\"\<payload\>\"", ",", "\"\<attempts\>\""}], "]"}], "[", 
+          RowBox[{"[", "1", "]"}], "]"}], "[", "\"\<projectId\>\"", "]"}]}], 
+       ";", "\[IndentingNewLine]", 
+       RowBox[{"predID", "=", 
+        RowBox[{"getPred", "[", 
+         RowBox[{"\"\<payload\>\"", ",", "\"\<id\>\""}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"rxnImg", "=", 
+        RowBox[{
+         RowBox[{"ResourceFunction", "[", "\"\<SVGImport\>\"", "]"}], "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"getPred", "[", 
+            RowBox[{"\"\<payload\>\"", ",", "\"\<attempts\>\""}], "]"}], "[", 
+           RowBox[{"[", "1", "]"}], "]"}], "[", "\"\<reactionImage\>\"", 
+          "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"rxnConf", "=", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"getPred", "[", 
+           RowBox[{"\"\<payload\>\"", ",", "\"\<attempts\>\""}], "]"}], "[", 
+          RowBox[{"[", "1", "]"}], "]"}], "[", "\"\<confidence\>\"", "]"}]}], 
+       ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"rxnImg", "\[IndentingNewLine]", 
+        RowBox[{"TableForm", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"{", 
+            RowBox[{
+            "projName", ",", "projID", ",", "predID", ",", "rxnConf"}], "}"}],
+            "}"}], ",", 
+          RowBox[{"TableHeadings", "\[Rule]", 
+           RowBox[{"{", 
+            RowBox[{"None", ",", 
+             RowBox[{"{", 
+              RowBox[{
+              "\"\<Project Name\>\"", ",", "\"\<Project ID\>\"", ",", 
+               "\"\<Prediction ID\>\"", ",", 
+               "\"\<Prediction Confidence\>\""}], "}"}]}], "}"}]}]}], 
+         "]"}]}]}], "\[IndentingNewLine]", ",", "\[IndentingNewLine]", 
+      RowBox[{"req", "\[Equal]", "\"\<recover retrosynthesis\>\""}], ",", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+       "recover", " ", "a", " ", "previously", " ", "made", " ", 
+        "retrosynthesis"}], " ", "*)"}], "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"getRet", "=", 
+        RowBox[{
+         RowBox[{"HTTPRequest", "[", 
+          RowBox[{
+           RowBox[{"URL", "[", 
+            RowBox[{
+            "baseURL", "<>", "\"\</rxn/api/api/v1/retrosynthesis/\>\"", "<>", 
+             "IDorName"}], "]"}], ",", "\[IndentingNewLine]", 
+           RowBox[{"<|", 
+            RowBox[{
+             RowBox[{"\"\<Method\>\"", "\[Rule]", "\"\<GET\>\""}], ",", 
+             "\[IndentingNewLine]", 
+             RowBox[{"\"\<Headers\>\"", "\[Rule]", 
+              RowBox[{"<|", 
+               RowBox[{
+                RowBox[{
+                "\"\<Content-Type\>\"", "\[Rule]", 
+                 "\"\<application/json\>\""}], ",", "\[IndentingNewLine]", 
+                RowBox[{"\"\<Authorization\>\"", "\[Rule]", "authKey"}]}], 
+               "|>"}]}]}], "|>"}]}], "]"}], "//", 
+         RowBox[{
+          RowBox[{"URLExecute", "[", 
+           RowBox[{"#", ",", "\"\<RawJSON\>\""}], "]"}], "&"}]}]}], ";", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"While", "[", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"getRet", "[", 
+           RowBox[{
+           "\"\<payload\>\"", ",", "\"\<task\>\"", ",", "\"\<status\>\""}], 
+           "]"}], "\[NotEqual]", "\"\<DONE\>\""}], ",", "\[IndentingNewLine]", 
+         RowBox[{
+          RowBox[{"Pause", "[", "10", "]"}], ";", "\[IndentingNewLine]", 
+          RowBox[{"getRet", "=", 
+           RowBox[{
+            RowBox[{"HTTPRequest", "[", 
+             RowBox[{
+              RowBox[{"URL", "[", 
+               RowBox[{
+               "baseURL", "<>", "\"\</rxn/api/api/v1/retrosynthesis/\>\"", "<>",
+                 "IDorName"}], "]"}], ",", "\[IndentingNewLine]", 
+              RowBox[{"<|", 
+               RowBox[{
+                RowBox[{"\"\<Method\>\"", "\[Rule]", "\"\<GET\>\""}], ",", 
+                "\[IndentingNewLine]", 
+                RowBox[{"\"\<Headers\>\"", "\[Rule]", 
+                 RowBox[{"<|", 
+                  RowBox[{
+                   RowBox[{
+                   "\"\<Content-Type\>\"", "\[Rule]", 
+                    "\"\<application/json\>\""}], ",", "\[IndentingNewLine]", 
+                   RowBox[{"\"\<Authorization\>\"", "\[Rule]", "authKey"}]}], 
+                  "|>"}]}]}], "|>"}]}], "]"}], "//", 
+            RowBox[{
+             RowBox[{"URLExecute", "[", 
+              RowBox[{"#", ",", "\"\<RawJSON\>\""}], "]"}], "&"}]}]}], 
+          ";"}]}], "\[IndentingNewLine]", "\[IndentingNewLine]", "]"}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"projID", "=", 
+        RowBox[{"getRet", "[", 
+         RowBox[{"\"\<payload\>\"", ",", "\"\<projectId\>\""}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"retConf", "=", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"getRet", "[", 
+           RowBox[{"\"\<payload\>\"", ",", "\"\<sequences\>\""}], "]"}], "[", 
+          RowBox[{"[", "1", "]"}], "]"}], "[", "\"\<confidence\>\"", "]"}]}], 
+       ";", "\[IndentingNewLine]", 
+       RowBox[{"seqConf", "=", 
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           RowBox[{
+            RowBox[{"getRet", "[", 
+             RowBox[{"\"\<payload\>\"", ",", "\"\<siblings\>\""}], "]"}], "[", 
+            RowBox[{"[", 
+             RowBox[{"-", "1"}], "]"}], "]"}], "[", "\"\<reactions\>\"", 
+           "]"}], "[", 
+          RowBox[{"[", "1", "]"}], "]"}], "[", "\"\<confidence\>\"", "]"}]}], 
+       ";", "\[IndentingNewLine]", 
+       RowBox[{"retOptScore", "=", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"getRet", "[", 
+           RowBox[{"\"\<payload\>\"", ",", "\"\<sequences\>\""}], "]"}], "[", 
+          RowBox[{"[", "1", "]"}], "]"}], "[", "\"\<optimizationScore\>\"", 
+         "]"}]}], ";", "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"arrow", "=", 
+        RowBox[{"Graphics", "[", 
+         RowBox[{
+          RowBox[{"Text", "@", 
+           RowBox[{"Style", "[", 
+            RowBox[{"\"\<\[DoubleRightArrow]\>\"", ",", "60"}], "]"}]}], ",", 
+          RowBox[{"BaselinePosition", "\[Rule]", "Center"}], ",", 
+          RowBox[{"ImageSize", "\[Rule]", "100"}]}], "]"}]}], ";", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"prodSMILES", "=", 
+        RowBox[{
+         RowBox[{"getRet", "[", 
+          RowBox[{
+          "\"\<payload\>\"", ",", "\"\<wizardParameters\>\"", ",", 
+           "\"\<exclude_smiles\>\""}], "]"}], "[", 
+         RowBox[{"[", "1", "]"}], "]"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"molecPlots", "=", 
+        RowBox[{"MoleculePlot", "[", 
+         RowBox[{
+          RowBox[{"Molecule", "[", 
+           RowBox[{"StringReplace", "[", 
+            RowBox[{
+             RowBox[{
+              RowBox[{
+               RowBox[{
+                RowBox[{
+                 RowBox[{"getRet", "[", 
+                  RowBox[{"\"\<payload\>\"", ",", "\"\<siblings\>\""}], "]"}],
+                  "[", 
+                 RowBox[{"[", 
+                  RowBox[{"-", "1"}], "]"}], "]"}], "[", "\"\<reactions\>\"", 
+                "]"}], "[", 
+               RowBox[{"[", "1", "]"}], "]"}], "[", "\"\<smiles\>\"", "]"}], 
+             ",", 
+             RowBox[{"\"\<~\>\"", "\[Rule]", "\"\<.\>\""}]}], "]"}], "]"}], 
+          ",", 
+          RowBox[{"ImageSize", "\[Rule]", "Large"}]}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"rClass", "=", 
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           RowBox[{
+            RowBox[{"getRet", "[", 
+             RowBox[{"\"\<payload\>\"", ",", "\"\<siblings\>\""}], "]"}], "[", 
+            RowBox[{"[", 
+             RowBox[{"-", "1"}], "]"}], "]"}], "[", "\"\<reactions\>\"", 
+           "]"}], "[", 
+          RowBox[{"[", "1", "]"}], "]"}], "[", "\"\<rclass\>\"", "]"}]}], ";",
+        "\[IndentingNewLine]", 
+       RowBox[{"retImg", "=", 
+        RowBox[{"GraphicsRow", "[", 
+         RowBox[{"{", 
+          RowBox[{
+           RowBox[{"MoleculePlot", "[", 
+            RowBox[{"Molecule", "[", "prodSMILES", "]"}], "]"}], ",", "arrow",
+            ",", 
+           RowBox[{
+            RowBox[{
+             RowBox[{"StringReplace", "[", 
+              RowBox[{
+               RowBox[{
+                RowBox[{
+                 RowBox[{
+                  RowBox[{
+                   RowBox[{"getRet", "[", 
+                    RowBox[{"\"\<payload\>\"", ",", "\"\<siblings\>\""}], 
+                    "]"}], "[", 
+                   RowBox[{"[", 
+                    RowBox[{"-", "1"}], "]"}], "]"}], "[", 
+                  "\"\<reactions\>\"", "]"}], "[", 
+                 RowBox[{"[", "1", "]"}], "]"}], "[", "\"\<smiles\>\"", "]"}],
+                ",", 
+               RowBox[{"\"\<~\>\"", "\[Rule]", "\"\<.\>\""}]}], "]"}], "//", 
+             "Molecule"}], "//", "MoleculePlot"}]}], "}"}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"retTable", "=", 
+        RowBox[{"TableForm", "[", 
+         RowBox[{
+          RowBox[{"{", 
+           RowBox[{"{", 
+            RowBox[{
+            "projID", ",", "IDorName", ",", "retConf", ",", "retOptScore", 
+             ",", "rClass", ",", "seqConf"}], "}"}], "}"}], ",", 
+          RowBox[{"TableHeadings", "\[Rule]", 
+           RowBox[{"{", 
+            RowBox[{"None", ",", 
+             RowBox[{"{", 
+              RowBox[{
+              "\"\<Project ID\>\"", ",", "\"\<Retrosynthesis ID\>\"", ",", 
+               "\"\<Retrosynthesis Confidence\>\"", ",", 
+               "\"\<Retrosynthesis Optimization Score\>\"", ",", 
+               "\"\<Reaction Class\>\"", ",", "\"\<Sequence Confidence\>\""}],
+               "}"}]}], "}"}]}]}], "]"}]}], ";", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{"retImg", "\[IndentingNewLine]", "retTable"}]}]}], 
+     "\[IndentingNewLine]", "]"}]}], "]"}]}]], "Input",
+ InitializationCell->True,
+ CellChangeTimes->{{3.7961886018753357`*^9, 3.7961888205000277`*^9}, {
+   3.796188885318499*^9, 3.796188936784027*^9}, 3.796271078183524*^9, {
+   3.796271209800908*^9, 3.796271212112862*^9}, {3.7962713083668165`*^9, 
+   3.7962714958330097`*^9}, {3.796271560031309*^9, 3.7962715863778257`*^9}, {
+   3.7962717563812046`*^9, 3.796271759474927*^9}, {3.7962719956975336`*^9, 
+   3.7962720189483604`*^9}, {3.796273560933216*^9, 3.796273586646286*^9}, {
+   3.796431201311642*^9, 3.7964312817185106`*^9}, {3.796431395889043*^9, 
+   3.796431397366127*^9}, {3.7964314487965236`*^9, 3.796431449862635*^9}, {
+   3.796431565267864*^9, 3.79643156585034*^9}, {3.796431625357093*^9, 
+   3.7964316516358175`*^9}, {3.796431700089176*^9, 3.796431707985059*^9}, {
+   3.7964317731885676`*^9, 3.7964318593111444`*^9}, {3.7964318992294903`*^9, 
+   3.7964319036898017`*^9}, {3.7964319891937084`*^9, 3.79643200111182*^9}, {
+   3.7964320319890194`*^9, 3.7964320414775987`*^9}, {3.796432081466604*^9, 
+   3.7964321034627514`*^9}, {3.7964322802187324`*^9, 3.796432280319461*^9}, {
+   3.7964324201345887`*^9, 3.7964324511964817`*^9}, {3.7964427227884703`*^9, 
+   3.796442757009947*^9}, {3.7964428252937784`*^9, 3.796442903793745*^9}, {
+   3.7964430608690977`*^9, 3.796443062590459*^9}, {3.7965000025563145`*^9, 
+   3.7965000369823575`*^9}, {3.7965002041035323`*^9, 
+   3.7965002086020823`*^9}, {3.796500251620185*^9, 3.7965002560741997`*^9}, {
+   3.7966054344408035`*^9, 3.796605505940777*^9}, 3.796605576889983*^9, {
+   3.7966056827607822`*^9, 3.7966056891064367`*^9}, {3.7968357013785777`*^9, 
+   3.796835744299666*^9}, {3.796836345439131*^9, 3.796836379328459*^9}, {
+   3.79683641756715*^9, 3.7968364247329764`*^9}, {3.7968365024640055`*^9, 
+   3.7968365597799644`*^9}, {3.7968366078124514`*^9, 
+   3.7968366843257356`*^9}, {3.7968367209774957`*^9, 
+   3.7968368017873173`*^9}, {3.7968368541334515`*^9, 
+   3.7968369601787214`*^9}, {3.7968519749076033`*^9, 3.796852076360164*^9}, {
+   3.7968522872866755`*^9, 3.7968522910336504`*^9}, {3.796853071231309*^9, 
+   3.7968531217088013`*^9}, {3.7968531645904317`*^9, 3.796853190945084*^9}, {
+   3.796946303322296*^9, 3.79694633584308*^9}, {3.796947186029535*^9, 
+   3.796947189722643*^9}, {3.7969477224248657`*^9, 3.796947722512745*^9}, {
+   3.7969492420194883`*^9, 3.7969492424349613`*^9}, {3.7969603181813536`*^9, 
+   3.796960320134017*^9}, {3.796961550644066*^9, 3.796961579606391*^9}, {
+   3.7969623905764155`*^9, 3.79696240612227*^9}, {3.7970375005801706`*^9, 
+   3.7970375181236205`*^9}, {3.7970889103051744`*^9, 3.797088922772221*^9}, {
+   3.7970890330058975`*^9, 3.797089083000984*^9}, {3.797089460205601*^9, 
+   3.7970894915278425`*^9}, {3.79708963554467*^9, 3.7970896611948147`*^9}, {
+   3.7970898338293567`*^9, 3.7970898582411275`*^9}, {3.7975304179520903`*^9, 
+   3.797530443698201*^9}, 3.797531333154784*^9},
+ CellLabel->"",ExpressionUUID->"671179b7-dea3-470f-8a2b-a83ea69052cd"],
+
+Cell[BoxData[
+ RowBox[{"(*", " ", 
+  RowBox[{
+   RowBox[{"just", " ", "for", " ", "getting", " ", "all", " ", "stored", " ", 
+    RowBox[{"projects", ".", " ", "if"}], " ", "\"\<stored projects\>\"", " ",
+     "is", " ", "given", " ", "as", " ", "input"}], ",", " ", 
+   RowBox[{
+   "outputs", " ", "a", " ", "dataset", " ", "of", " ", "all", " ", "stored", 
+    " ", "projects", " ", "as", " ", "well", " ", "as", " ", "the", " ", 
+    "total", " ", "number", " ", "of", " ", "projects", " ", "stored"}]}], 
+  " ", "*)"}]], "Input",
+ CellChangeTimes->{{3.7964326597797985`*^9, 3.796432675801933*^9}, {
+  3.796434189802215*^9, 
+  3.7964342021950493`*^9}},ExpressionUUID->"09786345-e5e8-4844-8773-\
+6ba7d0b99a24"],
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"rxn", "[", "req_String", "]"}], ":=", 
+  RowBox[{"Module", "[", "\[IndentingNewLine]", 
+   RowBox[{
+    RowBox[{"{", 
+     RowBox[{
+     "myProjects", ",", "myProjNames", ",", "myProjIDs", ",", "nameRule", ",",
+       "idRule", ",", "myProjectsData", ",", "queueState"}], "}"}], ",", 
+    "\[IndentingNewLine]", 
+    RowBox[{"Which", "[", 
+     RowBox[{"(*", " ", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"If", "[", "]"}], " ", "you", " ", "want", " ", "to", " ", 
+        "get", " ", "all", " ", "\"\<stored projects\>\""}], ",", " ", 
+       RowBox[{"this", " ", "code", " ", "block", " ", "runs"}]}], " ", 
+      "*)"}], "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"req", "\[Equal]", "\"\<stored projects\>\""}], ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"myProjects", "=", 
+        RowBox[{
+         RowBox[{"HTTPRequest", "[", 
+          RowBox[{
+           RowBox[{"URL", "[", 
+            RowBox[{"baseURL", "<>", "\"\</rxn/api/api/v1/projects\>\""}], 
+            "]"}], ",", "\[IndentingNewLine]", 
+           RowBox[{"<|", 
+            RowBox[{
+             RowBox[{"\"\<Method\>\"", "\[Rule]", "\"\<GET\>\""}], ",", 
+             "\[IndentingNewLine]", 
+             RowBox[{"\"\<Headers\>\"", "\[Rule]", 
+              RowBox[{"<|", 
+               RowBox[{
+                RowBox[{
+                "\"\<Content-Type\>\"", "\[Rule]", 
+                 "\"\<application/json\>\""}], ",", "\[IndentingNewLine]", 
+                RowBox[{"\"\<Authorization\>\"", "\[Rule]", "authKey"}]}], 
+               "|>"}]}]}], "\[IndentingNewLine]", "|>"}]}], "]"}], "//", 
+         RowBox[{
+          RowBox[{"URLExecute", "[", 
+           RowBox[{"#", ",", "\"\<RawJSON\>\""}], "]"}], "&"}]}]}], ";", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"myProjNames", "=", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"#", "[", "\"\<name\>\"", "]"}], "&"}], "/@", 
+         RowBox[{"myProjects", "[", 
+          RowBox[{"\"\<payload\>\"", ",", "\"\<content\>\""}], "]"}]}]}], ";",
+        "\[IndentingNewLine]", 
+       RowBox[{"myProjIDs", "=", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"#", "[", "\"\<id\>\"", "]"}], "&"}], "/@", 
+         RowBox[{"myProjects", "[", 
+          RowBox[{"\"\<payload\>\"", ",", "\"\<content\>\""}], "]"}]}]}], ";",
+        "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"nameRule", "=", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"\"\<Project Name\>\"", "\[Rule]", "#"}], "&"}], "/@", 
+          "myProjNames"}], ")"}]}], ";", "\[IndentingNewLine]", 
+       RowBox[{"idRule", "=", 
+        RowBox[{"(", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"\"\<Project ID\>\"", "\[Rule]", "#"}], "&"}], "/@", 
+          "myProjIDs"}], ")"}]}], ";", "\[IndentingNewLine]", 
+       "\[IndentingNewLine]", 
+       RowBox[{"myProjectsData", "=", "\[IndentingNewLine]", 
+        RowBox[{
+         RowBox[{"Dataset", "[", "\[IndentingNewLine]", 
+          RowBox[{
+           RowBox[{
+            RowBox[{"Association", "[", "#", "]"}], "&"}], "/@", 
+           RowBox[{"Transpose", "[", 
+            RowBox[{"{", 
+             RowBox[{"nameRule", ",", "idRule"}], "}"}], "]"}]}], "]"}], 
+         "\[IndentingNewLine]", 
+         RowBox[{"TableForm", "[", 
+          RowBox[{
+           RowBox[{"{", 
+            RowBox[{"{", 
+             RowBox[{"ToString", "[", 
+              RowBox[{"myProjects", "[", 
+               RowBox[{"\"\<payload\>\"", ",", "\"\<totalElements\>\""}], 
+               "]"}], "]"}], "}"}], "}"}], ",", 
+           RowBox[{"TableHeadings", "\[Rule]", 
+            RowBox[{"{", 
+             RowBox[{"None", ",", 
+              RowBox[{"{", "\"\<Total Stored Projects\>\"", "}"}]}], "}"}]}], 
+           ",", 
+           RowBox[{"TableAlignments", "\[Rule]", "Center"}]}], "]"}]}]}]}], 
+      "\[IndentingNewLine]", ",", "\[IndentingNewLine]", 
+      RowBox[{"req", "\[Equal]", "\"\<queue status\>\""}], ",", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+       "get", " ", "the", " ", "status", " ", "of", " ", "the", " ", 
+        "retrosynthesis", " ", "queue"}], " ", "*)"}], "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"queueState", "=", 
+        RowBox[{
+         RowBox[{"HTTPRequest", "[", 
+          RowBox[{
+           RowBox[{"URL", "[", 
+            RowBox[{
+            "baseURL", "<>", 
+             "\"\</rxn/api/api/v1/retrosynthesis/queue-state\>\""}], "]"}], 
+           ",", "\[IndentingNewLine]", 
+           RowBox[{"<|", 
+            RowBox[{
+             RowBox[{"\"\<Method\>\"", "\[Rule]", "\"\<GET\>\""}], ",", 
+             "\[IndentingNewLine]", 
+             RowBox[{"\"\<Headers\>\"", "\[Rule]", 
+              RowBox[{"<|", 
+               RowBox[{
+                RowBox[{
+                "\"\<Content-Type\>\"", "\[Rule]", 
+                 "\"\<application/json\>\""}], ",", "\[IndentingNewLine]", 
+                RowBox[{"\"\<Authorization\>\"", "\[Rule]", "authKey"}]}], 
+               "|>"}]}]}], "\[IndentingNewLine]", "|>"}]}], "]"}], "//", 
+         RowBox[{
+          RowBox[{"URLExecute", "[", 
+           RowBox[{"#", ",", "\"\<RawJSON\>\""}], "]"}], "&"}]}]}], ";", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", "queueState"}]}], 
+     "\[IndentingNewLine]", "]"}]}], "]"}]}]], "Input",
+ InitializationCell->True,
+ CellChangeTimes->{{3.7964324574527473`*^9, 3.7964325129662495`*^9}, {
+  3.7964339692973137`*^9, 3.7964340095246134`*^9}, {3.796434066547052*^9, 
+  3.79643410377837*^9}, {3.7965000813344293`*^9, 3.796500093710231*^9}, {
+  3.7965010286288023`*^9, 3.7965010324264927`*^9}, {3.7969463391102934`*^9, 
+  3.7969463395263495`*^9}, {3.797104147691636*^9, 3.797104220772623*^9}, {
+  3.797106287196723*^9, 3.7971062940239244`*^9}},
+ CellLabel->"In[31]:=",ExpressionUUID->"7ec99595-3a44-48b7-9e49-e743cb5d35f2"]
+}, Closed]]
+},
+WindowSize->{1140.6, 585.6},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+FrontEndVersion->"12.1 for Microsoft Windows (64-bit) (March 18, 2020)",
+StyleDefinitions->"Default.nb",
+ExpressionUUID->"cca4d9a4-2ec1-43f2-85e5-3003652164a5"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[CellGroupData[{
+Cell[580, 22, 208, 3, 54, "Subsection",ExpressionUUID->"20d51134-b1e1-4bc5-a25d-46cb8b4e8174"],
+Cell[791, 27, 648, 13, 49, "Input",ExpressionUUID->"ce654aa2-e1c3-42a6-b651-818ecbb104b8"],
+Cell[1442, 42, 471, 10, 44, "Input",ExpressionUUID->"4e3bd669-11c7-4d71-9a0c-5c8acf07b298",
+ InitializationCell->True],
+Cell[1916, 54, 412, 9, 44, "Input",ExpressionUUID->"5dc56153-280d-4c74-9daa-5f607b0a01d2",
+ InitializationCell->True],
+Cell[2331, 65, 201, 4, 44, "Input",ExpressionUUID->"97c2f28d-3312-4868-a5ae-b9ba17ba7a96",
+ InitializationCell->True]
+}, Closed]],
+Cell[CellGroupData[{
+Cell[2569, 74, 164, 3, 38, "Subsection",ExpressionUUID->"cf725d2d-71bf-4f7b-bfc5-9b114ae82313"],
+Cell[2736, 79, 9834, 207, 767, "Input",ExpressionUUID->"7e3ef0d1-404f-4eb8-b40d-7be0883e5c51",
+ InitializationCell->True],
+Cell[12573, 288, 533, 11, 28, "Input",ExpressionUUID->"580b32ec-7560-4214-9ced-6bcb886bc096"],
+Cell[13109, 301, 9426, 214, 884, "Input",ExpressionUUID->"33418062-8d7f-4fd0-9d85-dc80a4d8069f",
+ InitializationCell->True],
+Cell[22538, 517, 264, 6, 28, "Input",ExpressionUUID->"de6701c3-994e-4895-9c3d-a10696ff6ce7"],
+Cell[22805, 525, 14735, 315, 1254, "Input",ExpressionUUID->"8182a722-5fad-4035-89c2-8756cdbf1f84",
+ InitializationCell->True],
+Cell[37543, 842, 538, 12, 28, "Input",ExpressionUUID->"1506debf-6320-4293-a68e-0247bed5acad"],
+Cell[38084, 856, 19804, 432, 1430, "Input",ExpressionUUID->"671179b7-dea3-470f-8a2b-a83ea69052cd",
+ InitializationCell->True],
+Cell[57891, 1290, 712, 14, 49, "Input",ExpressionUUID->"09786345-e5e8-4844-8773-6ba7d0b99a24"],
+Cell[58606, 1306, 5900, 136, 630, "Input",ExpressionUUID->"7ec99595-3a44-48b7-9e49-e743cb5d35f2",
+ InitializationCell->True]
+}, Closed]]
+}
+]
+*)
+
