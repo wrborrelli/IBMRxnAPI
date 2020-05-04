@@ -4,7 +4,7 @@ This API wrapper simplifies the use of IBM Rxn for chemistry capabilities in Mat
 
 ## Installation
 
-Download the source code from the IBMRxn_RawCode file or IBMRxn_wDemo for the code + a demonstration of its uses. 
+Download the source code from the IBMRxn_RawCode file or IBMRxn_wDemo for the code plus a demonstration of its uses. 
 
 
 ## Usage
