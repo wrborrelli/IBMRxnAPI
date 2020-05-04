@@ -8,7 +8,7 @@ Download the source code from the IBMRxn_RawCode file or IBMRxn_wDemo for the co
 
 
 ## Usage
-Below you will find a table outlining the capabilities of the function along with the necessary input and input types necessary for each action.
+Below you will find a table outlining the capabilities of the function along with the necessary input and input types for each action.
 Request | Action | Inputs | Input Type 
 ------- | ------ | -------| ---------- 
 new project | Creates a new project. | Request, Project Name | String, String
