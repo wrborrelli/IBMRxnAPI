@@ -20,6 +20,7 @@ recover retrosynthesis | Recovers the results from a previous retrosynthesis. | 
 stored projects | Lists all stored projects, with project IDs. | Request | String
 all project attempts | Lists all attempts within a project. | Request, Project ID | String, String
 queue status | Gets retrosynthesis queue status information. | Request | String
+
 All calls to the function are formatted with a string request specifying the action you would like to do, followed by the requisite inputs specified in the table above:
 ```bash
 rxn["request", input___] 
