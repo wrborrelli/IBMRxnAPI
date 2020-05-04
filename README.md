@@ -25,6 +25,7 @@ All calls to the function are formatted with a string request specifying the act
 ```bash
 rxn["request", input___] 
 ```
+To utilize the API with your own account you will need to input your authorization key. You can find it in your IBM Rxn for chemistry profile under "Api Key." You will be prompted to enter your key upon first run of the wrapper code.
 ## Support
 Any support related inquiries may be directed to wborrelli@fordham.edu. 
 
