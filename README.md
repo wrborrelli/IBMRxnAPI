@@ -33,7 +33,7 @@ rxn["request", input___]
 ```
 To utilize the API with your own account you will need to input your authorization key. You can find it in your IBM Rxn for chemistry profile under "Api Key." You will be prompted to enter your key upon first run of the wrapper code.
 ## Support
-Any support related inquiries may be directed to wborrelli@fordham.edu. For general IBM RXN for Chemistry API support see [the official documentation].(https://rxn.res.ibm.com/wp-content/uploads/2020/04/ibm_rxn_api_v2.pdf)
+Any support related inquiries may be directed to wborrelli@fordham.edu. For general IBM RXN for Chemistry API support see [the official documentation](https://rxn.res.ibm.com/wp-content/uploads/2020/04/ibm_rxn_api_v2.pdf).
 
 ## Authors and Acknowledgement
 Dr. Joshua Schrier, Kim B. and Stephen E. Bepler Chair Professor of Chemistry at Fordham University, was immensely helpful in all aspects of this project. 
