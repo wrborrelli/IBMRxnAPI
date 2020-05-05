@@ -14,6 +14,7 @@ Download the source code from the IBMRxn_RawCode file or IBMRxn_wDemo for the co
 
 
 ## Usage
+To utilize the API with your own account you will need to input your authorization key. You can find it in your IBM Rxn for chemistry profile under "Api Key." You will be prompted to enter your key upon first run of the wrapper code.
 Below you will find a table outlining the capabilities of the function along with the necessary input and input types for each action.
 Request | Action | Inputs | Input Type 
 ------- | ------ | -------| ---------- 
@@ -31,7 +32,6 @@ All calls to the function are formatted with a string request specifying the act
 ```bash
 rxn["request", input___] 
 ```
-To utilize the API with your own account you will need to input your authorization key. You can find it in your IBM Rxn for chemistry profile under "Api Key." You will be prompted to enter your key upon first run of the wrapper code.
 ## Support
 Any support related inquiries may be directed to wborrelli@fordham.edu. For general IBM RXN for Chemistry API support see [the official documentation](https://rxn.res.ibm.com/wp-content/uploads/2020/04/ibm_rxn_api_v2.pdf).
 
