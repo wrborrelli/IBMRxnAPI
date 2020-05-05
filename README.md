@@ -6,7 +6,7 @@ This API wrapper simplifies the use of IBM Rxn for chemistry capabilities in Mat
 [IBM's RXN for Chemistry AI](https://rxn.res.ibm.com/) allows for reaction product prediction given reactants or retrosynthetic prediction given a product. Its capabilities can be utilized programatically through API requests, however making requests and processing responses can be difficult. This wrapper acts to simplify the use of RXN for Chemistry by streamlining API requests and responses. 
 
 ## Live Demo
-[](IBMRxn_LiveDemo.gif)
+![](IBMRxn_LiveDemo.gif)
 
 ## Installation
 
