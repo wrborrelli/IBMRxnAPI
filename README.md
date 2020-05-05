@@ -33,6 +33,7 @@ All calls to the function are formatted with a string request specifying the act
 ```bash
 rxn["request", input___] 
 ```
+Prediction or retrosynthesis requests can take lists of either SMILES strings, molecule images, or a mixture of both. 
 ## Support
 Any support related inquiries may be directed to wborrelli@fordham.edu. For general IBM RXN for Chemistry API support see [the official documentation](https://rxn.res.ibm.com/wp-content/uploads/2020/04/ibm_rxn_api_v2.pdf).
 
