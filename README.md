@@ -16,15 +16,15 @@ Download the source code from the IBMRxn_RawCode file or IBMRxn_wDemo for the co
 ## Usage
 To utilize the API with your own account you will need to input your authorization key. You can find it in your IBM Rxn for chemistry profile under "Api Key." You will be prompted to enter your key upon first run of the wrapper code.
 
-Below you will find a table outlining the capabilities of the function along with the necessary input and input types for each action.
+Below you will find a table outlining the capabilities of the function along with the necessary input and input types for each action. Note that inputs in italic characters are optional. 
 Request | Action | Inputs | Input Type 
 ------- | ------ | -------| ---------- 
 new project | Creates a new project. | Request, Project Name | String, String
 new prediction | Creates a new prediction. | Request, Reactants List, Project ID | String, List of Images/Strings, String
-new retrosynthesis| Creates a new retrosynthesis. | Request, Project ID, Product Molecule List | String, String, List of Image/String
+new retrosynthesis| Creates a new retrosynthesis. | Request, Project ID, Product Molecule List, _Precursor SMILES_, _Output Type_ | String, String, List of Image/String, _String_, _String_
 more predictions | Gets all predictions for a previous prediction. | Request, Project ID, Prediction ID | String, String, String
 recover prediction | Recovers the results from a previous prediction. | Request, Prediction ID | String, String
-recover retrosynthesis | Recovers the results from a previous retrosynthesis. | Request, Retrosynthesis ID | String, String
+recover retrosynthesis | Recovers the results from a previous retrosynthesis. | Request, Retrosynthesis ID, _Output Type_ | String, String, _String_
 stored projects | Lists all stored projects, with project IDs. | Request | String
 all project attempts | Lists all attempts within a project. | Request, Project ID | String, String
 queue status | Gets retrosynthesis queue status information. | Request | String
