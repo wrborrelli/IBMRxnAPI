@@ -25,10 +25,10 @@ Below you will find a table outlining the capabilities of the function along wit
 Request | Action | Inputs | Input Type 
 ------- | ------ | -------| ---------- 
 new project | Creates a new project. | Request, Project Name | String, String
-new prediction | Creates a new prediction. | Request, Reactants List, Project ID | String, List of Images/Strings, String
+new prediction | Creates a new prediction. | Request, Reactants List, Project ID, _Output Type_ | String, List of Images/Strings, String, _String_
 new retrosynthesis| Creates a new retrosynthesis. | Request, Project ID, Product Molecule List, _Precursor SMILES_, _Output Type_ | String, String, List of Image/String, _String_, _String_
-more predictions | Gets all predictions for a previous prediction. | Request, Project ID, Prediction ID | String, String, String
-recover prediction | Recovers the results from a previous prediction. | Request, Prediction ID | String, String
+more predictions | Gets all predictions for a previous prediction. | Request, Project ID, Prediction ID, _Output Type_ | String, String, String, _String_
+recover prediction | Recovers the results from a previous prediction. | Request, Prediction ID, _Output Type_ | String, String, _String_
 recover retrosynthesis | Recovers the results from a previous retrosynthesis. | Request, Retrosynthesis ID, _Output Type_ | String, String, _String_
 stored projects | Lists all stored projects, with project IDs. | Request | String
 all project attempts | Lists all attempts within a project. | Request, Project ID | String, String
@@ -36,7 +36,7 @@ queue status | Gets retrosynthesis queue status information. | Request | String
 
 Output Types | Format 
 ------------ | ------
-default | Reaction Image and Prediction Information Table
+default/"" | Reaction Image and Prediction Information Table
 dataset | Dataset of SMILES, Reaction Type, and Prediction Information 
 
 Prediction or retrosynthesis requests can take lists of either SMILES strings, molecule images, or a mixture of both.
