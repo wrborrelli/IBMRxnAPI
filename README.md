@@ -37,7 +37,7 @@ queue status | Gets retrosynthesis queue status information. | Request | String
 Output Types | Format 
 ------------ | ------
 default/"" | Reaction Image and Prediction Information Table
-dataset | Dataset of SMILES, Reaction Type, and Prediction Information 
+dataset | Dataset of SMILES, Reaction Type, and Prediction/Retrosynthesis Information. Displays a reaction image in the case of a prediction. 
 
 Prediction or retrosynthesis requests can take lists of either SMILES strings, molecule images, or a mixture of both.
 ## Support
