@@ -10,7 +10,7 @@ This API wrapper simplifies the use of IBM Rxn for chemistry capabilities in Mat
 
 ## Installation
 
-Download the source code from the IBMRxn_RawCode file or IBMRxn_wDemo for the code plus a demonstration of its uses. 
+Download the source code from the most recent IBMRxn_RawCode file or IBMRxn_wDemo for the code plus a demonstration of its uses. You can also download the Mathematica Function Repository notebook to allow for local deployment of the function (IBMRxn[]). 
 
 
 ## Usage
