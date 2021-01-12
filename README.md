@@ -39,7 +39,10 @@ Output Types | Format
 default/"" | Reaction Image and Prediction Information Table
 dataset | Dataset of SMILES, Reaction Type, and Prediction/Retrosynthesis Information. Includes a reaction image in the case of a prediction. 
 
-Prediction or retrosynthesis requests can take lists of either SMILES strings, molecule images, or a mixture of both.
+Prediction or retrosynthesis requests can take lists of either SMILES strings, molecule images, or a mixture of both. Note that proper functioning depends on the use of one specified function, reacSplitp[], which is included in the function repository definition. If desired, the functional form is below:
+```bash
+reacSplit[reacs_String] := StringSplit[reacs, ">>"];
+```
 ## Support
 Any support related inquiries may be directed to wborrelli@fordham.edu. For general IBM RXN for Chemistry API support see [the official documentation](https://rxn.res.ibm.com/wp-content/uploads/2020/04/ibm_rxn_api_v2.pdf).
 
